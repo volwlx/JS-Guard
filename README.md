@@ -1,4 +1,3 @@
 # batchJSlint
-based on 
-#jshint command line
+based on # jshint command line
 install node --> install jshint global --> use this
