@@ -1,0 +1,12 @@
+{
+    "basePath": "MyLintJsV200/BaseLine/1.0.0/",
+    "reportFormat": "html",
+    "summaryTemplate": {
+    	"head": "MyLintJsV200/Templates/differ.html",
+    	"tail": "MyLintJsV200/Templates/differ-end.html"
+    },
+    "detailTemplate": {
+    	"head": "MyLintJsV200/Templates/differdetail.html",
+    	"tail": "MyLintJsV200/Templates/differ-end.html"
+    }
+}
