@@ -1,4 +1,0 @@
-{
-"zc/tree/test-lint.js":{"W041":{"increase":1,"count":1,"raw":"Use '{a}' to compare with '{b}'."}},
-"zc/tree/test.js":{"W041":{"increase":1,"count":1,"raw":"Use '{a}' to compare with '{b}'."}}
-}
