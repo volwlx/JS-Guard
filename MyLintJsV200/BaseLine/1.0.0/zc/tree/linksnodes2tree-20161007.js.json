@@ -1,0 +1,22 @@
+{
+W041:{
+"code":"W041",
+"count":14,
+"detail":[
+{"id":"(error)","raw":"Use '{a}' to compare with '{b}'.","code":"W041","evidence":"      if (null == t.nodesbylevel[t.nodes[lp][nhop]])","line":94,"character":16,"scope":"(main)","a":"===","b":"null","reason":"Use '===' to compare with 'null'."},
+{"id":"(error)","raw":"Use '{a}' to compare with '{b}'.","code":"W041","evidence":"      if (null == t.nodesbylevel[lpex])","line":121,"character":16,"scope":"(main)","a":"===","b":"null","reason":"Use '===' to compare with 'null'."},
+{"id":"(error)","raw":"Use '{a}' to compare with '{b}'.","code":"W041","evidence":"      if ((null == t.isolates[lp]) ||","line":145,"character":17,"scope":"(main)","a":"===","b":"null","reason":"Use '===' to compare with 'null'."},
+{"id":"(error)","raw":"Use '{a}' to compare with '{b}'.","code":"W041","evidence":"        if (null != nd.children[l])","line":166,"character":18,"scope":"(main)","a":"!==","b":"null","reason":"Use '!==' to compare with 'null'."},
+{"id":"(error)","raw":"Use '{a}' to compare with '{b}'.","code":"W041","evidence":"      while (null != nd)","line":186,"character":19,"scope":"(main)","a":"!==","b":"null","reason":"Use '!==' to compare with 'null'."},
+{"id":"(error)","raw":"Use '{a}' to compare with '{b}'.","code":"W041","evidence":"        if (null == ndch)","line":189,"character":18,"scope":"(main)","a":"===","b":"null","reason":"Use '===' to compare with 'null'."},
+{"id":"(error)","raw":"Use '{a}' to compare with '{b}'.","code":"W041","evidence":"        if (null != t.nodesbylevel[lp])","line":270,"character":18,"scope":"(main)","a":"!==","b":"null","reason":"Use '!==' to compare with 'null'."},
+{"id":"(error)","raw":"Use '{a}' to compare with '{b}'.","code":"W041","evidence":"      if (null != nd)","line":303,"character":16,"scope":"(main)","a":"!==","b":"null","reason":"Use '!==' to compare with 'null'."},
+{"id":"(error)","raw":"Use '{a}' to compare with '{b}'.","code":"W041","evidence":"        while (null != fnd)","line":322,"character":21,"scope":"(main)","a":"!==","b":"null","reason":"Use '!==' to compare with 'null'."},
+{"id":"(error)","raw":"Use '{a}' to compare with '{b}'.","code":"W041","evidence":"            (null == end) || ","line":334,"character":19,"scope":"(main)","a":"===","b":"null","reason":"Use '===' to compare with 'null'."},
+{"id":"(error)","raw":"Use '{a}' to compare with '{b}'.","code":"W041","evidence":"        while (null != fnd)","line":358,"character":21,"scope":"(main)","a":"!==","b":"null","reason":"Use '!==' to compare with 'null'."},
+{"id":"(error)","raw":"Use '{a}' to compare with '{b}'.","code":"W041","evidence":"      while (null != gf)","line":375,"character":19,"scope":"(main)","a":"!==","b":"null","reason":"Use '!==' to compare with 'null'."},
+{"id":"(error)","raw":"Use '{a}' to compare with '{b}'.","code":"W041","evidence":"      if (null == this.nodesbyid[nd[this.keys.nodeid]])","line":380,"character":16,"scope":"(main)","a":"===","b":"null","reason":"Use '===' to compare with 'null'."},
+{"id":"(error)","raw":"Use '{a}' to compare with '{b}'.","code":"W041","evidence":"        if (null ==  this.nodesbylevel[nd[this.keys.nodelevel]])","line":384,"character":18,"scope":"(main)","a":"===","b":"null","reason":"Use '===' to compare with 'null'."}
+]
+}
+}

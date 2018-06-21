@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+  <meta charset="utf-8" />
+  <title>Differ Detail</title>
+  <meta name="author" content="zhengvolcano@163.com" />
+  <meta name="version" content="2018-06-18" />
+  <meta name="copyright" content="" />
+
+  <style>
+    *{
+      color: black
+    }
+    table {
+      border-collapse: collapse;
+    }
+    table th,
+    table td {
+      border: solid 1px black;
+    }
+    table th {
+      border-top: solid 2px black;
+      border-bottom: solid 2px black;
+      padding-left: 10px;
+      padding-right: 10px;
+    }
+    th {
+      font-weight:bold;
+    }
+    span.error, tr.error *{
+      color: red;
+    }
+    tr.warning *{
+      color:orange;
+    }
+    tr.success *{
+      color:green;
+    }
+    td.vertical-top {
+      vertical-align: top;
+    }
+  </style>
+ 
+</head>
+<body id="body">
+<h3>JavaScript Lint Differ Detail</h3>
+<h4>File : <span id="fileWithPath" style="color:green"></span></h4>
+<!-- <br>
+<table>
+  <caption></caption>
+  <thead>
+    <tr>
+      <th>Line</th>
+      <th>Base</th>
+      <th>Differ</th>
+    </tr>
+  </thead>
+
+  <tbody id="detailBody">
+      
+  </tbody>
+</table> -->
+<script type="text/javascript">
+    window.onload = function(){
+      var rgE = /^E\d*$/;
+      function getClass(item){
+        if (rgE.test(item.code)){
+          return "error";
+        }
+        return "warning";
+      }
+      var tbody = document.getElementById('detailBody');
+      var newtext =function(text) {
+        return document.createTextNode(text);
+      };
+      var newEl = function(tag) {
+        return document.createElement(tag);
+      };
+      Element.prototype.appendBack = function(cl){
+        this.appendChild(cl);
+        return this;
+      };
+      Element.prototype.setClassBack = function(cl){
+        this.setAttribute("class", cl);
+        return this;
+      };
+      function getErrorLine(e) {
+        var base = newEl("td").setClassBack("vertical-top");
+        base.innerHTML = e.base.map(function(a){return JSON.stringify(a)}).join("<br>")
+        var diff = newEl("td").setClassBack("vertical-top");
+        diff.innerHTML = e.diff.map(function(a){return JSON.stringify(a)}).join("<br>")
+        var tr = newEl("tr").appendBack(newEl("td").appendBack(newtext(e.line)))
+                            .appendBack(base)
+                            .appendBack(diff);
+        return tr;
+      }
+      function getErrorTable(error) {
+          var table = newEl("table");
+          var tbody = newEl("tbody");
+          var tr    = newEl("tr").appendBack(newEl("th").appendBack(newtext("Line")))
+                                 .appendBack(newEl("th").appendBack(newtext("Base")))
+                                 .appendBack(newEl("th").appendBack(newtext("Differ")));
+          var code = newEl("span");
+          code.innerHTML = error.code + "  " + 
+                           '<span class="error">Increase ' + (error.count.diff - error.count.base) + "</span>"
+                            // +"  Count: " + error.count.diff;
+          table.appendBack(newEl("caption").appendBack(code))
+               .appendBack(newEl("thead").appendBack(tr))
+               .appendBack(tbody);
+          document.getElementById("body").appendChild(newEl("br"));
+          document.getElementById("body").appendChild(table);
+          error.lines.forEach(function(e){
+            tbody.appendChild(getErrorLine(e));
+          });
+          return tbody;
+      }
+      function putData (data) {
+        var i;
+        var codeM = {};
+
+         var formatOneCode = function (ds, ckey) {
+          if (!ds){
+            return;
+          }
+          if (undefined === codeM[ds.code]) {
+            codeM[ds.code] = {"code": ds.code, lines: [], count:{base: 0, diff: 0}};
+          }
+          var code = codeM[ds.code];
+          ds.detail.forEach(function (a) {
+            if (!code.lines[a.line]) {
+              code.lines[a.line] = {line: a.line, base:[], diff:[]};
+            }
+            code.lines[a.line][ckey].push(a);
+          });
+          code.count[ckey] = ds.detail.length;
+        }
+        if (undefined === data.base) {
+          data.base = {};
+        }
+
+        for (i in data.diff) {
+          var diff = data.diff[i];
+          var base = data.base[i];
+          formatOneCode(diff, "diff");
+          formatOneCode(base,"base");
+          codeM[i].lines = codeM[i].lines.filter(function (a) {
+            return !!a;
+          });
+          getErrorTable(codeM[i]);
+        }
+      }
+      document.getElementById("fileWithPath").appendChild(newtext(data.file));
+      putData(data);
+
+    };
+    // {
+    //   base:{},
+    //   file:{}
+    //   diff:{}
+    // }
+    var data = {
+"base":
+{
+},
+"file": "zc/tree/test.js",
+"diff":
+{
+W041:{
+"code":"W041",
+"count":1,
+"detail":[
+{"id":"(error)","raw":"Use '{a}' to compare with '{b}'.","code":"W041","evidence":"if (null == testtree) {","line":67,"character":10,"scope":"(main)","a":"===","b":"null","reason":"Use '===' to compare with 'null'."}
+]
+}
+}
+    };
+</script>
+</body>
+</html>

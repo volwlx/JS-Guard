@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+  <meta charset="utf-8" />
+  <title>Lint Summary</title>
+  <meta name="author" content="cycletest, zc" />
+  <meta name="copyright" content="" />
+
+  <style>
+    *{
+      color: black
+    }
+    table {
+      border-collapse: collapse;
+    }
+    table th,
+    table td {
+      border: solid 1px black;
+    }
+    table th {
+      border-top: solid 2px black;
+      border-bottom: solid 2px black;
+      padding-left: 10px;
+      padding-right: 10px;
+    }
+    th {
+      font-weight:bold;
+    }
+    tr.error *{
+      background-color: red;
+    }
+    td.error {
+      color:red;
+      font-weight: bold;
+    }
+    tr.warning *{
+      background-color: orange;
+    }
+    tr.success *{
+      background-color: green;
+    }
+    td.text-right {
+      text-align: right;
+    }
+    a {
+      color: blue;
+    }
+  </style>
+ 
+</head>
+<body id="body">
+<h3>JavaScript Lint Result Summary</h3>
+<!-- <br>
+<table>
+  <caption></caption>
+  <thead>
+    <tr>
+      <th>Error</th>
+      <th>Reason</th>
+      <th>Count</th>
+      <th>Increase</th>
+    </tr>
+    <tbody id="summaryBody">
+      
+    </tbody>
+  </thead>
+</table> -->
+<div>
+</div>
+<script type="text/javascript">
+    window.onload = function (){
+      function getClass(item){
+        if (item.LintErrorNum > 0){
+          return "error";
+        }
+        else if (item.LintWarningNum > 0){
+          return "warning";
+        }
+        else {
+          return "success";
+        }
+      }
+      var newtext =function(text) {
+        return document.createTextNode(text);
+      };
+      var newEl = function(tag) {
+        return document.createElement(tag);
+      };
+      Element.prototype.appendBack = function(cl){
+        this.appendChild(cl);
+        return this;
+      };
+      Element.prototype.setClassBack = function(cl){
+        this.setAttribute("class", cl);
+        return this;
+      };
+      function getErrorLine(e, code) {
+        var increase = newEl("td").appendBack(newtext(e.increase)).setClassBack("error text-right");
+        var count = newEl("td").appendBack(newtext(e.count)).setClassBack("text-right");
+        var tr = newEl("tr").appendBack(newEl("td").appendBack(newtext(code)))
+                            .appendBack(newEl("td").appendBack(newtext(e.raw)))
+                            .appendBack(count)
+                            .appendBack(increase);
+        return tr;
+      }
+      function getErrorTable(errors, file) {
+          var table = newEl("table");
+          var tbody = newEl("tbody");
+          var tr    = newEl("tr").appendBack(newEl("th").appendBack(newtext("Error")))
+                                 .appendBack(newEl("th").appendBack(newtext("Reason")))
+                                 .appendBack(newEl("th").appendBack(newtext("Count")))
+                                 .appendBack(newEl("th").appendBack(newtext("Increase")));
+          var a = newEl("a").appendBack( newtext(file));
+          a.href = file + ".html";
+          table.appendBack(newEl("caption").appendBack(a))
+               .appendBack(newEl("thead").appendBack(tr))
+               .appendBack(tbody);
+          document.getElementById("body").appendChild(newEl("br"));
+          document.getElementById("body").appendChild(table);
+          for (var i in errors) {
+             tbody.appendChild(getErrorLine(errors[i],i));
+          }
+          return tbody;
+      }
+      var tbody = document.getElementById('summaryBody');
+      function putData (summary) {
+        for (var i in summary){
+          getErrorTable(summary[i], i)
+        }
+      }
+      putData(data.summary);
+    };
+    // {
+    //   summary:{}
+    // }
+    var data = {"summary":
+{
+"zc/tree/test-lint.js":{"W041":{"increase":1,"count":1,"raw":"Use '{a}' to compare with '{b}'."}},
+"zc/tree/test.js":{"W041":{"increase":1,"count":1,"raw":"Use '{a}' to compare with '{b}'."}}
+}
+    };
+</script>
+</body>
+</html>

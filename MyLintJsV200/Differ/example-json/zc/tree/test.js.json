@@ -1,0 +1,9 @@
+{
+W041:{
+"code":"W041",
+"count":1,
+"detail":[
+{"id":"(error)","raw":"Use '{a}' to compare with '{b}'.","code":"W041","evidence":"if (null == testtree) {","line":67,"character":10,"scope":"(main)","a":"===","b":"null","reason":"Use '===' to compare with 'null'."}
+]
+}
+}
