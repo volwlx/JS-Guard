@@ -133,7 +133,7 @@ fi
 echo "Differ of this time is here"
 echo $LINTRESULT_PATH
 rm $LINTRESULT_PATH/$JSLINT_REPORTER_NAME
-# rm $LINTRESULT_PATH/$JSLINT_DIFF_SETTING_NAME
+rm $LINTRESULT_PATH/$JSLINT_DIFF_SETTING_NAME
 
 # get the lint result
 summaryLineCount=`sed -n '$=' $LINTRESULT_PATH/summary.json`

@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+  <meta charset="utf-8" />
+  <title>Lint Summary</title>
+  <meta name="author" content="cycletest, zc" />
+  <meta name="copyright" content="" />
+
+  <style>
+    *{
+      color: black
+    }
+    table {
+      border-collapse: collapse;
+    }
+    table th,
+    table td {
+      border: solid 1px black;
+    }
+    table th {
+      border-top: solid 2px black;
+      border-bottom: solid 2px black;
+      padding-left: 10px;
+      padding-right: 10px;
+    }
+    th {
+      font-weight:bold;
+    }
+    tr.error *{
+      color: red;
+    }
+    tr.warning *{
+      color:orange;
+    }
+    tr.success *{
+      color:green;
+    }
+  </style>
+ 
+</head>
+<body>
+<h3>JavaScript Lint Detail</h3>
+<h4>File : <span id="fileWithPath" style="color:green"></span></h4>
+<br>
+<table>
+  <thead>
+    <tr>
+      <th>Error Code</th>
+      <th>Line</th>
+      <th>Character</th>
+      <th>Reason</th>
+    </tr>
+    <tbody id="detailBody">
+      
+    </tbody>
+  </thead>
+</table>
+<script type="text/javascript">
+    window.onload = function(){
+      var rgE = /^E\d*$/;
+      function getClass(item){
+        if (rgE.test(item.code)){
+          return "error";
+        }
+        return "warning";
+      }
+      var tbody = document.getElementById('detailBody');
+      var newtext =function(text) {
+        return document.createTextNode(text);
+      };
+      var newEl = function(tag) {
+        return document.createElement(tag);
+      };
+      Element.prototype.appendBack = function(cl){
+        this.appendChild(cl);
+        return this;
+      };
+      function putData (data) {
+        data.forEach(function(err){
+          var d = err.error;         
+          var tr = newEl("tr").appendBack(newEl("td").appendBack(newtext(d.code))).appendBack(newEl("td").appendBack(newtext(d.line))).appendBack(newEl("td").appendBack(newtext(d.character))).appendBack(newEl("td").appendBack(newtext(d.reason)));
+          tr.className = getClass(d);
+          tbody.appendChild(tr);
+        });
+      }
+      document.getElementById("fileWithPath").appendChild(newtext(detail.file));
+      putData(detail.errors);
+
+    };
+    var detail = {
+"LintErrorNum":0,
+"LintWarningNum":45,
+"file":"zc/tree/topotree.js",
+"errors":[
+{"file":"zc/tree/topotree.js","error":{"id":"(error)","raw":"Use '{a}' to compare with '{b}'.","code":"W041","line":85,"character":20,"scope":"(main)","a":"!==","b":"null","reason":"Use '!==' to compare with 'null'."}},
+{"file":"zc/tree/topotree.js","error":{"id":"(error)","raw":"Use '{a}' to compare with '{b}'.","code":"W041","line":100,"character":18,"scope":"(main)","a":"===","b":"null","reason":"Use '===' to compare with 'null'."}},
+{"file":"zc/tree/topotree.js","error":{"id":"(error)","raw":"Use '{a}' to compare with '{b}'.","code":"W041","line":111,"character":21,"scope":"(main)","a":"!==","b":"null","reason":"Use '!==' to compare with 'null'."}},
+{"file":"zc/tree/topotree.js","error":{"id":"(error)","raw":"Use '{a}' to compare with '{b}'.","code":"W041","line":114,"character":20,"scope":"(main)","a":"===","b":"null","reason":"Use '===' to compare with 'null'."}},
+{"file":"zc/tree/topotree.js","error":{"id":"(error)","raw":"Use '{a}' to compare with '{b}'.","code":"W041","line":165,"character":18,"scope":"(main)","a":"===","b":"null","reason":"Use '===' to compare with 'null'."}},
+{"file":"zc/tree/topotree.js","error":{"id":"(error)","raw":"Use '{a}' to compare with '{b}'.","code":"W041","line":187,"character":21,"scope":"(main)","a":"!==","b":"null","reason":"Use '!==' to compare with 'null'."}},
+{"file":"zc/tree/topotree.js","error":{"id":"(error)","raw":"Use '{a}' to compare with '{b}'.","code":"W041","line":190,"character":20,"scope":"(main)","a":"===","b":"null","reason":"Use '===' to compare with 'null'."}},
+{"file":"zc/tree/topotree.js","error":{"id":"(error)","raw":"Use '{a}' to compare with '{b}'.","code":"W041","line":230,"character":18,"scope":"(main)","a":"===","b":"null","reason":"Use '===' to compare with 'null'."}},
+{"file":"zc/tree/topotree.js","error":{"id":"(error)","raw":"Use '{a}' to compare with '{b}'.","code":"W041","line":238,"character":20,"scope":"(main)","a":"!==","b":"null","reason":"Use '!==' to compare with 'null'."}},
+{"file":"zc/tree/topotree.js","error":{"id":"(error)","raw":"Use '{a}' to compare with '{b}'.","code":"W041","line":246,"character":29,"scope":"(main)","a":"!==","b":"null","reason":"Use '!==' to compare with 'null'."}},
+{"file":"zc/tree/topotree.js","error":{"id":"(error)","raw":"Use '{a}' to compare with '{b}'.","code":"W041","line":254,"character":27,"scope":"(main)","a":"!==","b":"null","reason":"Use '!==' to compare with 'null'."}},
+{"file":"zc/tree/topotree.js","error":{"id":"(error)","raw":"Use '{a}' to compare with '{b}'.","code":"W041","line":310,"character":20,"scope":"(main)","a":"!==","b":"null","reason":"Use '!==' to compare with 'null'."}},
+{"file":"zc/tree/topotree.js","error":{"id":"(error)","raw":"Use '{a}' to compare with '{b}'.","code":"W041","line":344,"character":18,"scope":"(main)","a":"!==","b":"null","reason":"Use '!==' to compare with 'null'."}},
+{"file":"zc/tree/topotree.js","error":{"id":"(error)","raw":"Use '{a}' to compare with '{b}'.","code":"W041","line":381,"character":21,"scope":"(main)","a":"===","b":"null","reason":"Use '===' to compare with 'null'."}},
+{"file":"zc/tree/topotree.js","error":{"id":"(error)","raw":"Use '{a}' to compare with '{b}'.","code":"W041","line":422,"character":23,"scope":"(main)","a":"!==","b":"null","reason":"Use '!==' to compare with 'null'."}},
+{"file":"zc/tree/topotree.js","error":{"id":"(error)","raw":"Use '{a}' to compare with '{b}'.","code":"W041","line":430,"character":21,"scope":"(main)","a":"!==","b":"null","reason":"Use '!==' to compare with 'null'."}},
+{"file":"zc/tree/topotree.js","error":{"id":"(error)","raw":"Use '{a}' to compare with '{b}'.","code":"W041","line":448,"character":20,"scope":"(main)","a":"!==","b":"null","reason":"Use '!==' to compare with 'null'."}},
+{"file":"zc/tree/topotree.js","error":{"id":"(error)","raw":"Use '{a}' to compare with '{b}'.","code":"W041","line":457,"character":18,"scope":"(main)","a":"===","b":"null","reason":"Use '===' to compare with 'null'."}},
+{"file":"zc/tree/topotree.js","error":{"id":"(error)","raw":"Use '{a}' to compare with '{b}'.","code":"W041","line":463,"character":18,"scope":"(main)","a":"!==","b":"null","reason":"Use '!==' to compare with 'null'."}},
+{"file":"zc/tree/topotree.js","error":{"id":"(error)","raw":"Use '{a}' to compare with '{b}'.","code":"W041","line":468,"character":25,"scope":"(main)","a":"!==","b":"null","reason":"Use '!==' to compare with 'null'."}},
+{"file":"zc/tree/topotree.js","error":{"id":"(error)","raw":"Use '{a}' to compare with '{b}'.","code":"W041","line":476,"character":23,"scope":"(main)","a":"!==","b":"null","reason":"Use '!==' to compare with 'null'."}},
+{"file":"zc/tree/topotree.js","error":{"id":"(error)","raw":"Use '{a}' to compare with '{b}'.","code":"W041","line":528,"character":19,"scope":"(main)","a":"===","b":"null","reason":"Use '===' to compare with 'null'."}},
+{"file":"zc/tree/topotree.js","error":{"id":"(error)","raw":"Use '{a}' to compare with '{b}'.","code":"W041","line":540,"character":21,"scope":"(main)","a":"!==","b":"null","reason":"Use '!==' to compare with 'null'."}},
+{"file":"zc/tree/topotree.js","error":{"id":"(error)","raw":"Use '{a}' to compare with '{b}'.","code":"W041","line":548,"character":27,"scope":"(main)","a":"===","b":"null","reason":"Use '===' to compare with 'null'."}},
+{"file":"zc/tree/topotree.js","error":{"id":"(error)","raw":"Use '{a}' to compare with '{b}'.","code":"W041","line":554,"character":18,"scope":"(main)","a":"===","b":"null","reason":"Use '===' to compare with 'null'."}},
+{"file":"zc/tree/topotree.js","error":{"id":"(error)","raw":"Use '{a}' to compare with '{b}'.","code":"W041","line":556,"character":20,"scope":"(main)","a":"===","b":"null","reason":"Use '===' to compare with 'null'."}},
+{"file":"zc/tree/topotree.js","error":{"id":"(error)","raw":"Use '{a}' to compare with '{b}'.","code":"W041","line":588,"character":18,"scope":"(main)","a":"!==","b":"null","reason":"Use '!==' to compare with 'null'."}},
+{"file":"zc/tree/topotree.js","error":{"id":"(error)","raw":"Use '{a}' to compare with '{b}'.","code":"W041","line":654,"character":18,"scope":"(main)","a":"===","b":"null","reason":"Use '===' to compare with 'null'."}},
+{"file":"zc/tree/topotree.js","error":{"id":"(error)","raw":"Use '{a}' to compare with '{b}'.","code":"W041","line":684,"character":18,"scope":"(main)","a":"===","b":"null","reason":"Use '===' to compare with 'null'."}},
+{"file":"zc/tree/topotree.js","error":{"id":"(error)","raw":"Use '{a}' to compare with '{b}'.","code":"W041","line":722,"character":16,"scope":"(main)","a":"===","b":"null","reason":"Use '===' to compare with 'null'."}},
+{"file":"zc/tree/topotree.js","error":{"id":"(error)","raw":"Use '{a}' to compare with '{b}'.","code":"W041","line":731,"character":16,"scope":"(main)","a":"!==","b":"null","reason":"Use '!==' to compare with 'null'."}},
+{"file":"zc/tree/topotree.js","error":{"id":"(error)","raw":"Use '{a}' to compare with '{b}'.","code":"W041","line":741,"character":21,"scope":"(main)","a":"!==","b":"null","reason":"Use '!==' to compare with 'null'."}},
+{"file":"zc/tree/topotree.js","error":{"id":"(error)","raw":"Use '{a}' to compare with '{b}'.","code":"W041","line":747,"character":21,"scope":"(main)","a":"!==","b":"null","reason":"Use '!==' to compare with 'null'."}},
+{"file":"zc/tree/topotree.js","error":{"id":"(error)","raw":"Use '{a}' to compare with '{b}'.","code":"W041","line":781,"character":16,"scope":"(main)","a":"!==","b":"null","reason":"Use '!==' to compare with 'null'."}},
+{"file":"zc/tree/topotree.js","error":{"id":"(error)","raw":"Use '{a}' to compare with '{b}'.","code":"W041","line":789,"character":16,"scope":"(main)","a":"===","b":"null","reason":"Use '===' to compare with 'null'."}},
+{"file":"zc/tree/topotree.js","error":{"id":"(error)","raw":"Use '{a}' to compare with '{b}'.","code":"W041","line":801,"character":18,"scope":"(main)","a":"===","b":"null","reason":"Use '===' to compare with 'null'."}},
+{"file":"zc/tree/topotree.js","error":{"id":"(error)","raw":"Use '{a}' to compare with '{b}'.","code":"W041","line":812,"character":21,"scope":"(main)","a":"!==","b":"null","reason":"Use '!==' to compare with 'null'."}},
+{"file":"zc/tree/topotree.js","error":{"id":"(error)","raw":"Use '{a}' to compare with '{b}'.","code":"W041","line":822,"character":27,"scope":"(main)","a":"===","b":"null","reason":"Use '===' to compare with 'null'."}},
+{"file":"zc/tree/topotree.js","error":{"id":"(error)","raw":"Use '{a}' to compare with '{b}'.","code":"W041","line":828,"character":18,"scope":"(main)","a":"===","b":"null","reason":"Use '===' to compare with 'null'."}},
+{"file":"zc/tree/topotree.js","error":{"id":"(error)","raw":"Use '{a}' to compare with '{b}'.","code":"W041","line":840,"character":20,"scope":"(main)","a":"===","b":"null","reason":"Use '===' to compare with 'null'."}},
+{"file":"zc/tree/topotree.js","error":{"id":"(error)","raw":"Use '{a}' to compare with '{b}'.","code":"W041","line":858,"character":21,"scope":"(main)","a":"!==","b":"null","reason":"Use '!==' to compare with 'null'."}},
+{"file":"zc/tree/topotree.js","error":{"id":"(error)","raw":"Use '{a}' to compare with '{b}'.","code":"W041","line":893,"character":17,"scope":"(main)","a":"!==","b":"null","reason":"Use '!==' to compare with 'null'."}},
+{"file":"zc/tree/topotree.js","error":{"id":"(error)","raw":"Use '{a}' to compare with '{b}'.","code":"W041","line":894,"character":17,"scope":"(main)","a":"!==","b":"null","reason":"Use '!==' to compare with 'null'."}},
+{"file":"zc/tree/topotree.js","error":{"id":"(error)","raw":"Use '{a}' to compare with '{b}'.","code":"W041","line":925,"character":17,"scope":"(main)","a":"!==","b":"null","reason":"Use '!==' to compare with 'null'."}},
+{"file":"zc/tree/topotree.js","error":{"id":"(error)","raw":"Use '{a}' to compare with '{b}'.","code":"W041","line":925,"character":34,"scope":"(main)","a":"!==","b":"null","reason":"Use '!==' to compare with 'null'."}}]
+}
+</script>
+</body>
+</html>

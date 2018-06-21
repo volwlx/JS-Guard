@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+  <meta charset="utf-8" />
+  <title>Lint Summary</title>
+  <meta name="author" content="cycletest, zc" />
+  <meta name="copyright" content="" />
+
+  <style>
+    *{
+      color: black
+    }
+    table {
+      border-collapse: collapse;
+    }
+    table th,
+    table td {
+      border: solid 1px black;
+    }
+    table th {
+      border-top: solid 2px black;
+      border-bottom: solid 2px black;
+      padding-left: 10px;
+      padding-right: 10px;
+    }
+    th {
+      font-weight:bold;
+    }
+    tr.error *{
+      background-color: red;
+    }
+    tr.warning *{
+      background-color: orange;
+    }
+    tr.success *{
+      background-color: green;
+    }
+  </style>
+ 
+</head>
+<body>
+<h3>JavaScript Lint Result Summary</h3>
+<br>
+<table>
+  <thead>
+    <tr>
+      <th>File</th>
+      <th>Error</th>
+      <th>Warning</th>
+      <th>Detail</th>
+    </tr>
+    <tbody id="summaryBody">
+      
+    </tbody>
+  </thead>
+</table>
+<div>
+</div>
+<script type="text/javascript">
+    window.onload = function (){
+      function getClass(item){
+        if (item.LintErrorNum > 0){
+          return "error";
+        }
+        else if (item.LintWarningNum > 0){
+          return "warning";
+        }
+        else {
+          return "success";
+        }
+      }
+      var newtext =function(text) {
+        return document.createTextNode(text);
+      };
+      var newEl = function(tag) {
+        return document.createElement(tag);
+      };
+      Element.prototype.appendBack = function(cl){
+        this.appendChild(cl);
+        return this;
+      };
+      var tbody = document.getElementById('summaryBody');
+      function putData (data) {
+        data.forEach(function(d){
+          var a = newEl("a").appendBack( newtext("Detail"));
+          a.href = "lintjson/" + d.path + ".html";
+          
+          var tr = newEl("tr").appendBack(newEl("td").appendBack(newtext(d.path))).appendBack(newEl("td").appendBack(newtext(d.LintErrorNum))).appendBack(newEl("td").appendBack(newtext(d.LintWarningNum))).appendBack(newEl("td").appendBack(a));
+          tr.className = getClass(d);
+          tbody.appendChild(tr);
+        });
+      }
+      putData(summary);
+    };
+    var summary = [
+{"LintErrorNum":0,"LintWarningNum":14,"path":"zc/tree/linksnodes2tree-20161007.js"},
+{"LintErrorNum":0,"LintWarningNum":46,"path":"zc/tree/linksnodes2tree.js"},
+{"LintErrorNum":1,"LintWarningNum":50,"path":"zc/tree/linksnodes2tree.min.js"},
+{"LintErrorNum":0,"LintWarningNum":1,"path":"zc/tree/test-lint.js"},
+{"LintErrorNum":0,"LintWarningNum":1,"path":"zc/tree/test.js"},
+{"LintErrorNum":0,"LintWarningNum":45,"path":"zc/tree/topotree.js"},
+    ];
+</script>
+</body>
+</html>
