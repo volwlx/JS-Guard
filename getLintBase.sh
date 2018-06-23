@@ -4,9 +4,25 @@ JSLINT_FOLDER=MyLintJsV200
 JSLINT_BASELINE_FOLDER=BaseLine
 LINTCODE_PROJECTFOLDER=zc
 LINTCODE_RESOURCEFOLDER=
-JSLINT_REPORTER_NAME=BaseLine/lintbase.reporter.js
+JSLINT_REPORTER_NAME=$JSLINT_BASELINE_FOLDER/lintbase.reporter.js
+JSLINT_BASE_CONFIG_FILE=$JSLINT_FOLDER/.jshintrc
 
-LINTRESULT_FOLDER=`date | sed 's/[\ \:\.]//g'`
+LINTRESULT_FOLDER=""
+
+#get params
+for p in "$@"
+do
+    if [[ $p =~ ^"-tag=" ]]
+    then
+        LINTRESULT_FOLDER=`echo "$p" | sed 's/^-tag=//'`
+    fi
+done
+
+if [ -z $LINTRESULT_FOLDER ]
+then
+    LINTRESULT_FOLDER=`date | sed 's/[\ \:\.]//g'`
+fi
+
 
 LINTCODE_PATH=`pwd`
 
@@ -30,13 +46,18 @@ read NEW_LINTBASE_CONFIRM
 
 if [ "Y" == $NEW_LINTBASE_CONFIRM -o "y" == $NEW_LINTBASE_CONFIRM ]
 then
-    jshint --reporter=$JSLINT_REPORTER_FILE --exclude=./$JSLINT_FOLDER ./$LINTCODE_PROJECTFOLDER
+    if [ -z LINTCODE_RESOURCEFOLDER ]
+    then
+           jshint --reporter=$JSLINT_REPORTER_FILE --exclude=./$JSLINT_FOLDER --config=$JSLINT_BASE_CONFIG_FILE ./$LINTCODE_PROJECTFOLDER
+    else
+           jshint --reporter=$JSLINT_REPORTER_FILE --exclude=./$JSLINT_FOLDER --config=$JSLINT_BASE_CONFIG_FILE ./$LINTCODE_PROJECTFOLDER ./$LINTCODE_RESOURCEFOLDER
+    fi
     #mv the temp file to LINTRESULT_FOLDER
     mv $JSLINT_FOLDER/$JSLINT_BASELINE_FOLDER/temp $JSLINT_FOLDER/$JSLINT_BASELINE_FOLDER/$LINTRESULT_FOLDER
     echo "New BaseLine is here"
     echo $JSLINT_FOLDER/$JSLINT_BASELINE_FOLDER/$LINTRESULT_FOLDER
 else
-	echo "Give up."
+    echo "Give up."
 fi
 
 

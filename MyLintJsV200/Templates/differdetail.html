@@ -85,10 +85,30 @@
         return this;
       };
       function getErrorLine(e) {
+        // {
+        //   "id":"(error)",
+        //   "raw":"'{a}' is defined but never used.",
+        //   "code":"W098",
+        //   "evidence":"var testtree = new NodesLinksToTree({",
+        //   "line":494,
+        //   "character":5,
+        //   "scope":"(main)",
+        //   "a":"testtree",
+        //   "reason":"'testtree' is defined but never used."
+        // }
         var base = newEl("td").setClassBack("vertical-top");
-        base.innerHTML = e.base.map(function(a){return JSON.stringify(a)}).join("<br>")
+        // base.innerHTML = e.base.map(function(a){return JSON.stringify(a)}).join("<br>")
+        base.innerHTML = e.base.map(function(a){
+                          return "code: " + a.evidence+"<br>" +
+                          "character: " + a.character+"<br>" +
+                          "reason: " + a.reason;
+                        }).join("<hr>");
         var diff = newEl("td").setClassBack("vertical-top");
-        diff.innerHTML = e.diff.map(function(a){return JSON.stringify(a)}).join("<br>")
+        diff.innerHTML = e.diff.map(function(a){
+                          return "code: " + a.evidence+"<br>" +
+                          "character: " + a.character+"<br>" +
+                          "reason: " + a.reason;
+                        }).join("<hr>");
         var tr = newEl("tr").appendBack(newEl("td").appendBack(newtext(e.line)))
                             .appendBack(base)
                             .appendBack(diff);
@@ -101,7 +121,7 @@
                                  .appendBack(newEl("th").appendBack(newtext("Base")))
                                  .appendBack(newEl("th").appendBack(newtext("Differ")));
           var code = newEl("span");
-          code.innerHTML = error.code + "  " + 
+          code.innerHTML = error.code + " ("+(error.lines[0] && error.lines[0].diff[0].raw) +") " + 
                            '<span class="error">Increase ' + (error.count.diff - error.count.base) + "</span>"
                             // +"  Count: " + error.count.diff;
           table.appendBack(newEl("caption").appendBack(code))

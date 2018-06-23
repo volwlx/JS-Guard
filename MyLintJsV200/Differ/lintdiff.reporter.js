@@ -106,7 +106,7 @@ module.exports = {
             fs.appendFileSync(file, fs.readFileSync(setting.basePath + filename + ".json") );
           }
           catch (e) {
-            console.log("read base error!!")
+            process.stdout.write("Read base error, it is a new file!")
             fs.appendFileSync(file, '{}');
           }
           fs.appendFileSync(file, ',\n"file": "' + filename+ '"');
@@ -209,7 +209,7 @@ module.exports = {
     var fs = require("fs");
     var setting = JSON.parse(fs.readFileSync(settingPath));
     // process.stdout.write(setting );
-    console.log(setting);
+    // console.log(setting);
 
     var basePath = setting.basePath;
     var baseSummary = JSON.parse(fs.readFileSync(basePath + "summary.json"));
