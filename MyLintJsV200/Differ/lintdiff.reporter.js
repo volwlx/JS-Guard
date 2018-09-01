@@ -207,7 +207,9 @@ module.exports = {
     }
 
     var fs = require("fs");
-    var setting = JSON.parse(fs.readFileSync(settingPath));
+    var basesetting = JSON.parse(fs.readFileSync(settingPath));
+    var setting = JSON.parse(fs.readFileSync(jsonPath + "format-setting.json"))
+    setting.basePath = basesetting.basePath;
     // process.stdout.write(setting );
     // console.log(setting);
 

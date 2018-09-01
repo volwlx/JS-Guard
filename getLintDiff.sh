@@ -1,21 +1,25 @@
 #!/bin/bash
 #echo off
 
-# sh getLintDiff.sh [-tag={tag}] [-format=json|html] [-type=all|file] [-listfile={filelist_file}]
+# sh getLintDiff.sh [-tag={tag}] [-format=json|html] [-type=all|file] [-listfile={filelist_file}] [-target={target}] [-list={list}]
 
 JSLINT_FOLDER=MyLintJsV200
 JSLINT_DIFF_FOLDER=Differ
+JSLINT_BASELINE_FOLDER=BaseLine
 LINTCODE_FILELIST_NAME=filelist.txt
 LINTCODE_PROJECTFOLDER=zc
 LINTCODE_RESOURCEFOLDER=i18n
 JSLINT_REPORTER_NAME=lintdiff.reporter.js
 JSLINT_DIFF_SETTING_NAME=setting.json
+JSLINT_DIFF_FORMAT_PREFIX=format
 JSLINT_DIFF_CONFIG_FILE=$JSLINT_FOLDER/.jshintrc
 
 LINTRESULT_FOLDER=""
 LINTCODE_FILELIST_FILE=""
+LINTCODE_FILE_LIST=""
 MYJSLINT_TYPE="all"   #"all" or "file"
 REPORT_FORMAT="json"  #"json" or "html"
+BASELINE_TAG=
 
 LINTCODE_PATH=`pwd`
 
@@ -32,10 +36,9 @@ export LINTDIFFRESULT=$LINTDIFFFAILED
 for p in "$@"
 do
 	echo $p
-	if [[ $p =~ ^"-tag=" ]]
+	if [[ $p =~ ^"-target=" ]]
 	then
-	echo "in tag"
-		LINTRESULT_FOLDER=`echo "$p" | sed 's/^-tag=//'`
+		LINTRESULT_FOLDER=`echo "$p" | sed 's/^-target=//'`
 	elif [[ $p =~ ^"-type=" ]]
 	then
 		MYJSLINT_TYPE=`echo "$p" | sed 's/^-type=//'`
@@ -45,6 +48,12 @@ do
 	elif [[ $p =~ ^"-format" ]]
 	then
 		REPORT_FORMAT=`echo "$p" | sed 's/^-format=//'`
+	elif [[ $p =~ ^"-tag" ]]
+	then
+		BASELINE_TAG=`echo "$p" | sed 's/^-tag=//'`
+	elif [[ $p =~ ^"-list" ]]
+	then
+		LINTCODE_FILE_LIST=`echo "$p" | sed 's/^-list=//'`
 	fi
 done
 
@@ -73,7 +82,15 @@ if [ ! $REPORT_FORMAT = "html" ]
 then
 	REPORT_FORMAT="json"
 fi
-cp $JSLINT_PATH/$JSLINT_DIFF_FOLDER/$REPORT_FORMAT$JSLINT_DIFF_SETTING_NAME   $LINTRESULT_PATH/$JSLINT_DIFF_SETTING_NAME
+
+cp $JSLINT_PATH/$JSLINT_DIFF_FOLDER/$REPORT_FORMAT$JSLINT_DIFF_SETTING_NAME   $LINTRESULT_PATH/$JSLINT_DIFF_FORMAT_PREFIX-$JSLINT_DIFF_SETTING_NAME
+if [ ! -z $BASELINE_TAG ] && [ -d  $JSLINT_FOLDER/$JSLINT_BASELINE_FOLDER/$BASELINE_TAG ]
+then
+	echo \{\"basePath\"\:\"$JSLINT_FOLDER/$JSLINT_BASELINE_FOLDER/$BASELINE_TAG/\"\} >  $LINTRESULT_PATH/$JSLINT_DIFF_SETTING_NAME
+else
+	cp $JSLINT_PATH/$JSLINT_DIFF_FOLDER/$JSLINT_DIFF_SETTING_NAME   $LINTRESULT_PATH/$JSLINT_DIFF_SETTING_NAME
+fi
+
 
 # lint start
 if [ $MYJSLINT_TYPE != "file" ]
@@ -81,13 +98,19 @@ then
 	echo "lint the project"
 	jshint --reporter=$JSLINT_REPORTER_FILE --exclude=./$JSLINT_FOLDER --config=$JSLINT_DIFF_CONFIG_FILE $LINTCODE_PROJECTFOLDER
 else
-	echo in $LINTCODE_FILELIST_FILE
-	if [ ! -f $LINTCODE_FILELIST_FILE ]
+	if [ -z "$LINTCODE_FILE_LIST" ]
 	then
-		LINTDIFFRESULT=$LINTDIFFFAILED
-		echo "FAILED"
-		exit $LINTDIFFRESULT
+		echo in $LINTCODE_FILELIST_FILE
+		if [ ! -f $LINTCODE_FILELIST_FILE ]
+		then
+			LINTDIFFRESULT=$LINTDIFFFAILED
+			echo "FAILED"
+			exit $LINTDIFFRESULT
+		else 
+			LINTCODE_FILE_LIST=`cat $LINTCODE_FILELIST_FILE`
+		fi
 	fi
+	
 	allFileList=
 	fileJsEnd="\.js$"
 	fileMinJsEnd="\.min\.js$"
@@ -95,7 +118,7 @@ else
 	#    you miss the last line
 	# if use `cat $LINTCODE_FILELIST_FILE | while read -r fileline`
 	#    allFileList is still "", you cannot get it outfrom the loop
-	for fileline in `cat $LINTCODE_FILELIST_FILE`
+	for fileline in "$LINTCODE_FILE_LIST"
 	do
 		# fileline=${fileline//[\\]/\/}
 		fileline=`echo "$fileline" | sed 's/[\\]/\//g'`
@@ -135,6 +158,7 @@ echo "Differ of this time is here"
 echo $LINTRESULT_PATH
 rm $LINTRESULT_PATH/$JSLINT_REPORTER_NAME
 rm $LINTRESULT_PATH/$JSLINT_DIFF_SETTING_NAME
+rm $LINTRESULT_PATH/$JSLINT_DIFF_FORMAT_PREFIX-$JSLINT_DIFF_SETTING_NAME
 
 # get the lint result
 summaryLineCount=`sed -n '$=' $LINTRESULT_PATH/summary.json`
@@ -147,6 +171,7 @@ else
 	LINTDIFFRESULT=$LINTDIFFFAILED
 	echo "FAILED"
 fi
+# zip -r -m -q  $JSLINT_FOLDER/$JSLINT_DIFF_FOLDER/$LINTRESULT_FOLDER.zip  $JSLINT_FOLDER/$JSLINT_DIFF_FOLDER/$LINTRESULT_FOLDER
 exit $LINTDIFFRESULT
 # or get the result in this way:
 # `sh getLintDiff.sh | sed -n '$p'` or `sh getLintDiff.sh | awk 'END {print}'`

@@ -13,6 +13,7 @@
     }
     table {
       border-collapse: collapse;
+      min-width: 50%;
     }
     table th,
     table td {
@@ -121,7 +122,15 @@
                                  .appendBack(newEl("th").appendBack(newtext("Base")))
                                  .appendBack(newEl("th").appendBack(newtext("Differ")));
           var code = newEl("span");
-          code.innerHTML = error.code + " ("+(error.lines[0] && error.lines[0].diff[0].raw) +") " + 
+          var raw="";
+          error.lines.some(function(i){
+            var b_g = i.diff && i.diff.length;
+            if (b_g) {
+              raw = i.diff[0].raw;
+            }
+            return !!b_g;
+          });
+          code.innerHTML = error.code + " ("+ raw +") " + 
                            '<span class="error">Increase ' + (error.count.diff - error.count.base) + "</span>"
                             // +"  Count: " + error.count.diff;
           table.appendBack(newEl("caption").appendBack(code))

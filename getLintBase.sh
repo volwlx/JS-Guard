@@ -46,7 +46,7 @@ read NEW_LINTBASE_CONFIRM
 
 if [ "Y" == $NEW_LINTBASE_CONFIRM -o "y" == $NEW_LINTBASE_CONFIRM ]
 then
-    if [ -z LINTCODE_RESOURCEFOLDER ]
+    if [ -z $LINTCODE_RESOURCEFOLDER ]
     then
            jshint --reporter=$JSLINT_REPORTER_FILE --exclude=./$JSLINT_FOLDER --config=$JSLINT_BASE_CONFIG_FILE ./$LINTCODE_PROJECTFOLDER
     else
