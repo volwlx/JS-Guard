@@ -79,6 +79,14 @@ module.exports = {
       var file = jsonPath + filename +".json";
       return file;
     }
+    function inWhiteList(err) {
+      var w_map = {
+      };
+      if (w_map[err.code]){
+        return w_map[err.code](err);
+      }
+      return false;
+    }
     function getOneLints(oneR, filename) {
       var str = "";
       var len = oneR.length;
@@ -93,6 +101,9 @@ module.exports = {
 
       oneR.forEach(function (r) {
         var err = r.error;
+        if (inWhiteList(error)){
+          return;
+        }
         /*incase it's a minimize file*/
         if (err.evidence && (err.evidence.length > evidence_maxlength)){
           err.evidence = "It's TOO LONG TO SHOW.";

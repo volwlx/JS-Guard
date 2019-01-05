@@ -118,7 +118,7 @@ else
 	#    you miss the last line
 	# if use `cat $LINTCODE_FILELIST_FILE | while read -r fileline`
 	#    allFileList is still "", you cannot get it outfrom the loop
-	for fileline in "$LINTCODE_FILE_LIST"
+	for fileline in `echo $LINTCODE_FILE_LIST | xargs -n1`
 	do
 		# fileline=${fileline//[\\]/\/}
 		fileline=`echo "$fileline" | sed 's/[\\]/\//g'`

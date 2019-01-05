@@ -94,6 +94,14 @@ module.exports = {
       // E043 -- "Too manay Errors"
       return (rgE.test(code) && (whiteList.indexOf(code) < 0)) || (blackList.indexOf(code) > 0);
     }
+    function inWhiteList(err) {
+      var w_map = {
+      };
+      if (w_map[err.code]){
+        return w_map[err.code](err);
+      }
+      return false;
+    }
     function write2DetailFile(filename, str) {
       var ftype = setting.reportFormat || "json";
       var file = getPerfileName(filename, ftype);
@@ -135,6 +143,9 @@ module.exports = {
 
       oneR.forEach(function (r) {
         var err = r.error;
+        if (inWhiteList(error)){
+          return;
+        }
         /*incase it's a minimize file*/
         if (err.evidence && (err.evidence.length > evidence_maxlength)){
           err.evidence = "It's TOO LONG TO SHOW.";
